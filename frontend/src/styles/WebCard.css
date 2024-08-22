@@ -1,0 +1,17 @@
+
+.w-image{
+    width: 200px;
+    height: 270px;
+    position: relative;
+    
+}
+.w-image img{
+    border-radius: 15px;
+}
+.w-individual{
+    position: relative;
+    height: 270px;
+    width: 200px;
+    margin-left: 25px;
+    
+}

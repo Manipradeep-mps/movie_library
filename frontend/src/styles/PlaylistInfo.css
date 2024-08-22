@@ -1,0 +1,9 @@
+.listname{
+    margin-left: 20px;
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: 700;
+}
+.listdata-container{
+    display: flex;
+}

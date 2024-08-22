@@ -1,0 +1,24 @@
+.null-image{
+    margin-top: 20px;
+    margin-left: 400px;
+    width: 400px;
+    height: 400px;
+}
+.no-text{
+    margin-left: 500px;
+    color: #0404094d;
+}
+.my-playlist{
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.playlist-image{
+    margin-top: 20px;
+    margin-left: 25px;
+    border-radius: 30px;
+}
+.playlist-container{
+    display: flex;
+}

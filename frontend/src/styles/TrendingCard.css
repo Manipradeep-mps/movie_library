@@ -1,0 +1,17 @@
+
+.movie-image{
+    width: 200px;
+    height: 270px;
+    position: relative;
+    
+}
+.movie-image img{
+    border-radius: 15px;
+}
+.movie-individual{
+    position: relative;
+    height: 270px;
+    width: 200px;
+    margin-left: 25px;
+    
+}

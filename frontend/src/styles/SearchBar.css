@@ -1,0 +1,31 @@
+.SearchImage{
+    height: 300px;
+    width: 50%;
+}
+.image_container{
+    position: relative;
+}
+.bg{
+    display: block;
+    height: 300px;
+    width: 100%;
+}
+.ov{
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    height: 300px;
+}
+
+.intro-text{
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    padding-left: 400px;
+    padding-top: 80px;
+    font-size: 25px;
+    color: white;
+    width: 100%;
+}
