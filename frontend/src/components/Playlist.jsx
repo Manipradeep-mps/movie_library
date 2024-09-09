@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Header from './Header'
 import Myplaylist from './Myplaylist'
 import { useNavigate } from 'react-router-dom'
+import Addplaylist from './Addplaylist'
 
 function Playlist() {
   const navigate=useNavigate()
@@ -17,6 +18,7 @@ function Playlist() {
   return (
     <>
       <Header/>
+      <Addplaylist/>
       <Myplaylist/>
       {/* <img src='https://leetcode.com/_next/static/images/null_light-53585615fd723ba992bd2df7a10d10d1.png' width={200}></img> */}
     </>

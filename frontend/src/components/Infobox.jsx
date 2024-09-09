@@ -75,86 +75,7 @@ function Infobox() {
       
 
     }
-    async function create_list(){
-      const userinfo=localStorage.getItem("userInfo");
-      const user= jwtDecode(userinfo)
-      const userid=user.id;
-      const obj={
-        "listname":"Newlist1",
-        "userid":userid,
-        "listdata":[{
-        "title":data[0].title,
-        "type":type,
-        "rank":data[0].rank,
-        "image":data[0].big_image,
-        "actors":String,
-        "description":data[0].description,
-        "genre":data[0].genre,
-        "rating":data[0].rating,
-        "year":data[0].year
-        }]
-      }
-
-      try{
-        await fetch(`${import.meta.env.VITE_BASE_URL}/list/create`,{
-          method:"POST",
-          body:JSON.stringify(obj),
-          headers:{
-            'Content-Type':'Application/json'
-          }
-        })
-        .then(res=>res.json())
-        .then(result=>{
-          console.log(result)
-        })
-
-      }
-      catch(err){
-         console.log(err)
-      }
-      
-     
-    
-  }
-  async function addlist(){
-    const userinfo=localStorage.getItem("userInfo");
-      const user=jwtDecode(userinfo)
-      const userid=user.id;
-      const title="Newlist2";
-      const obj={
-        "id":userid,
-        "listname":title,
-        "listdata":{
-          "title":data[0].title,
-          "type":type,
-          "rank":data[0].rank,
-          "image":data[0].big_image,
-          "actors":String,
-          "description":data[0].description,
-          "genre":data[0].genre,
-          "rating":data[0].rating,
-          "year":data[0].year
-          }
-      }
-      try{
-        await fetch(`${import.meta.env.VITE_BASE_URL}/list/add`,{
-          method:"POST",
-          body:JSON.stringify(obj),
-          headers:{
-            'Content-Type':'Application/json'
-          }
-        })
-        .then(res=>res.json())
-        .then(result=>{
-          console.log(result)
-        })
-
-      }
-      catch(err){
-         console.log(err)
-      }
-
-  }
+ 
 
   async function delete_item(){
     const userinfo=localStorage.getItem("userInfo");
@@ -208,7 +129,7 @@ function Infobox() {
   }
 
   function playlist(){
-    navigate('/playlist')
+    navigate(`/add-or-create-playlist/${type}/${title}`);
   }
     
   return (
@@ -238,8 +159,6 @@ function Infobox() {
                     }
                    </div>
                    <div className='list-icon'>
-                    <Button onClick={create_list}>Create</Button>
-                    <Button onClick={addlist}>Add to list</Button>
                     { isLoggged==true ? (
                       <Button onClick={playlist} rightIcon={<BookmarksIcon fontSize='large'/>}>Playlist</Button>):(
                        <>

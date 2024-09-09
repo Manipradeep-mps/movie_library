@@ -3,17 +3,37 @@ import { useParams } from 'react-router-dom'
 import '../styles/PlaylistInfo.css'
 import PlaylistCard from './PlaylistCard'
 import { useNavigate } from 'react-router-dom'
+import Header from './Header'
+import { jwtDecode } from 'jwt-decode'
+import {ExternalLinkIcon} from "@chakra-ui/icons"
+import { Tooltip } from '@chakra-ui/react'
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { useToast } from '@chakra-ui/react'
 
 function PlaylistInfo() {
-    const[data,setdata]=useState()
+    const[data,setdata]=useState([])
+    const[isShared,setShared]=useState(false)
     const id=useParams()
+    const[curruser,setuser]=useState()
+    const toast=useToast()
+
     useEffect(()=>{
          getListInfo();
+         checkuser()
     },[])
+
     const navigate=useNavigate()
+
     useEffect(()=>{
        checklogin()
     },[])
+    
+    async function checkuser(){
+      const userinfo=localStorage.getItem("userInfo");
+      const user= await jwtDecode(userinfo)
+      const userid=user.id;
+      setuser(userid)
+    }
     async function checklogin(){
       if(localStorage.getItem("userInfo")==null ||localStorage.getItem("userInfo")==undefined)
       {
@@ -38,10 +58,33 @@ function PlaylistInfo() {
             setdata(result)
           })
     }
+    function handleDelete(id){
+      //console.log(data)
+    }
+    function handleshare(){
+      const url=window.location.href;
+      navigator.clipboard.writeText(url).then(()=>{
+        toast({
+          title:"Link Copied To Clipboard",
+          position:'top-right',
+          duration:2000,
+          status:'success'
+        })
+      })
+      .catch(()=>{
+        toast({
+          title:"Failed to Copy to Clipboard",
+          position:'top-right',
+          duration:2000,
+          status:'error'
+        })
+      })
+    }
     return (
     <>
+    <Header/>
      {
-        data==undefined ? (
+        data.length==0 ? (
             <>
              Loading....
             </>
@@ -51,11 +94,16 @@ function PlaylistInfo() {
             <>
             <div className='listname'>
               {data.listname}
+              
+              <Tooltip label='Share as Link'>
+                <ExternalLinkIcon color={'blue'} marginLeft='20px' onClick={handleshare} cursor='pointer'/>
+              </Tooltip>
+             
             </div>
             <div className='listdata-container'>
                {
                   data.listdata.map((val)=>{
-                    return <PlaylistCard key={val.id} value={val} listname={data.listname}/>
+                    return <PlaylistCard key={val.id} value={val} listname={data.listname} onDelete={handleDelete} listowner={data.userid}/>
                   })
                }
             </div>

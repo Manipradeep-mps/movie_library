@@ -9,16 +9,15 @@
     color: #0404094d;
 }
 .my-playlist{
-    margin-left: 20px;
-    margin-top: 10px;
+    margin-left: 30px;
+    margin-top: 80px;
     font-size: 20px;
     font-weight: 700;
 }
-.playlist-image{
-    margin-top: 20px;
-    margin-left: 25px;
-    border-radius: 30px;
-}
-.playlist-container{
+.mplaylist-container{
+    gap: 20px;
+    padding-left: 30px;
+    padding-top: 20px;
     display: flex;
+    flex-wrap: wrap;
 }

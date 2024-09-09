@@ -1,5 +1,6 @@
 /* Base styles for the container */
 .info-container {
+  margin-top: 60px;
     display: flex;
     flex-direction: row; /* Default to row layout (for larger screens) */
     width: 100%;

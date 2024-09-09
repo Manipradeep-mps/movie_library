@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { jwtDecode } from "jwt-decode";
 import '../styles/Myplaylist.css'
-import PlaylistContainer from './PlaylistContainer';
+import Editplaylist from './Editplaylist';
+import Header from './Header';
+
 function Myplaylist() {
 
     const[mylist,setlist]=useState([])
-
     useEffect(()=>{
         getplaylistinfo();
     },[])
@@ -38,9 +39,12 @@ function Myplaylist() {
             }
           })
     }
-
+     function handle_delete(id){
+         setlist(mylist.filter(item => item._id !== id));
+     }
     return (
         <>
+        <Header/>
          {
      mylist==null ?(
         <>
@@ -57,13 +61,13 @@ function Myplaylist() {
             <div className='my-playlist'>
                My playlists
             </div>
-           <div className='playlist-container'>
+           <div className='mplaylist-container'>
             {
                mylist.map((data)=>{
-                   return <PlaylistContainer key={data._id} data={data}/>
+                   return <Editplaylist key={data.id} data={data} onDelete={handle_delete}/>
                })
               
-            }
+             }
                   
             </div>
         </>

@@ -1,7 +1,19 @@
 .header{
-    /* position: fixed; */
+    position: fixed;
+    top: 0;
     background-color: rgb(7, 31, 103);
     height: 60px;
-    overflow: hidden;
     box-shadow: 0px 0px 15px #000000;
+    width: 100%; 
+    z-index: 100;
+}
+
+@media(max-width:768px){
+    .header{
+        background-color: rgb(7, 31, 103);
+        height: 60px;
+        box-shadow: 0px 0px 15px #000000;
+        width: 100%; 
+
+    }
 }

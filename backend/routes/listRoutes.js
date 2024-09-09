@@ -23,11 +23,11 @@ router.post('/create',(req,res)=>{
     try{
     listmodel(data).save()
     .then(result=>{
-        res.json(result);
+        res.json("Success");
     })
     }
     catch(err){
-        res.json(err)
+        res.json("Error")
     }
 })
 router.post('/add',async (req,res)=>{
@@ -39,7 +39,8 @@ router.post('/add',async (req,res)=>{
       if(list==null || list.length==0){
         res.json("List Not Found")
       }
-
+      else
+      {
       const exists = list.listdata.some(item => 
         item.title === moviedata.title && 
         item.year === moviedata.year
@@ -52,10 +53,12 @@ router.post('/add',async (req,res)=>{
       list.listdata.push(moviedata)
       await list.save()
       res.json("Success")
+  }
      }
      catch(err){
         res.json("Error")
      }
+
 
 
 
@@ -91,11 +94,11 @@ router.post('/delete-list',async(req,res)=>{
     {
     const result=await listmodel.deleteOne({userid:userid,listname:listname})
     if(result.deletedCount>0){
-      res.json("List Deleted Successfully")
+      res.json("Success")
     }
     else
     {
-    res.json("List not found or Deletion failed")
+    res.json("Error")
     }
     }
     catch(err)

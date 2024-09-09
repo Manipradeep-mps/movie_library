@@ -1,0 +1,28 @@
+.list-menu{
+    margin-top: 10px;
+    display: flex;
+    gap: 40px;
+}
+.list-text{
+    margin-left: 10px;
+    display: flex;
+    font-size: 20px;
+    font-weight: 500;
+}
+.hide{
+    margin-top: 5px;
+    margin-left: 120px;
+}
+@media(max-width:768px){
+    .list-menu{
+        margin-top: 5px;
+        margin-bottom: 20px;
+        gap: 40px;
+    }
+    .list-text{
+        margin-left: 10px;
+        display: flex;
+        font-size: 18px;
+        font-weight: 500;
+    }
+}
