@@ -7,62 +7,41 @@ import { Rating } from "primereact/rating";
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import { red } from '@mui/material/colors';
 import { useSelector } from 'react-redux';
+import Header from './Header';
 
 
-function Infobox() {
+function Search_Infobox() {
     const toast=useToast()
-    const {title}=useParams()
-    const {type}=useParams()
-     
     const navigate=useNavigate()
     const[data,setData]=useState([])
     const[isLoggged,setLogged]=useState(false)
+    const searchReduxData=useSelector((state)=> state.search.results)
+    const dataIndex=useSelector((state)=> state.search.dataIndex)
+
     useEffect(()=>{
         const token=localStorage.getItem('userInfo')
         if(token!=  undefined || token!=null)
         {
           setLogged(true)
-        }
-       
+        } 
         getinfo();
-        
+           
     },[])
-
-    async function getinfo(){
-        try
-        {
-             await fetch(`${import.meta.env.VITE_BASE_URL}/info/search`,{
-                method:'POST',
-                body:JSON.stringify({
-                   title:title,
-                   type:type
-                }),
-                headers:{
-                    'Content-Type':'Application/json'
-                }
-             })
-             .then(res=>res.json())
-             .then(result=>{
-                 setData(result)
-             })
-        }
-        catch(err){
-          toast({
-            title:'Someting went wrong! Try again later',
-            status:"error",
-            position:"top-right",
-            duration:3000,
-            isClosable:true
-
-          })
-        }
+  
+    function getinfo(){
+        const new_array=[]
+        new_array.push(searchReduxData[dataIndex])
+        setData(new_array)
+        
     }
+
   function playlist(){
-    navigate(`/add-or-create-playlist/${type}/${title}`);
+      navigate('/add-or-create-playlist/searchResult');
   }
     
   return (
     <>
+    <Header/>
       {
         data.length >0 ?(
           <div className='info-container'>
@@ -114,4 +93,4 @@ function Infobox() {
   )
 }
 
-export default Infobox
+export default Search_Infobox

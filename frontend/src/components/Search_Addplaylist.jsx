@@ -9,51 +9,30 @@ import AddplaylistCard from './AddplaylistCard'
 import { CloseIcon} from '@chakra-ui/icons'
 import { useToast } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
+import Search_AddplaylistCard from './Search_AddplaylistCard'
 
 
-function Addplaylist() {
+function Search_Addplaylist() {
+
   const[mylist,setlist]=useState([])
   const[isPop,setPop]=useState(false)
    const [data,setData]=useState([])
-  const {title}=useParams()
-  const {type}=useParams()
   const toast=useToast()
+
+  const searchReduxData=useSelector((state)=> state.search.results)
+  const dataIndex=useSelector((state)=> state.search.dataIndex)
    
   useEffect(()=>{
      getinfo();
      getplaylistinfo();
   },[])
 
-  async function getinfo(){
-    try
-    {
-         await fetch(`${import.meta.env.VITE_BASE_URL}/info/search`,{
-            method:'POST',
-            body:JSON.stringify({
-               title:title,
-               type:type
-            }),
-            headers:{
-                'Content-Type':'Application/json'
-            }
-         })
-         .then(res=>res.json())
-         .then(result=>{
-             setData(result)
-         })
-    }
-    catch(err){
-      toast(
-        {
-           title:"Something went wrong",
-           position:'top-right',
-           status:'error',
-           duration:2000,
-           isClosable:true
-        }
-      )
-    }
-   }
+  function getinfo(){
+    const new_array=[]
+    new_array.push(searchReduxData[dataIndex])
+    setData(new_array)
+}
+
    async function getplaylistinfo(){
     const userinfo=localStorage.getItem("userInfo");
     const user= await jwtDecode(userinfo)
@@ -81,6 +60,7 @@ function Addplaylist() {
         }
       })
      }
+
     async function create_list(){
       const listname=document.getElementById('list-name').value
       if(listname=="" || listname==undefined || listname==null)
@@ -226,7 +206,7 @@ function Addplaylist() {
             {
     
                mylist.map((data)=>{
-                    return<AddplaylistCard key={data._id} data={data}/>
+                    return<Search_AddplaylistCard key={data._id} data={data}/>
                })
               
             }
@@ -240,4 +220,4 @@ function Addplaylist() {
   )
 }
 
-export default Addplaylist
+export default Search_Addplaylist

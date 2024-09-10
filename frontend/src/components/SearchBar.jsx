@@ -2,20 +2,26 @@ import React, { useEffect } from 'react'
 import '../styles/SearchBar.css'
 import { Box, Button, Input,Tooltip} from '@chakra-ui/react'
 import { useState } from 'react'
-import TrendingCard from './TrendingCard'
 import {CloseIcon} from '@chakra-ui/icons'
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {storeDate,disContent,textDate,setReduxStatus,setDataIndex} from '../slices/searchSlice'
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import SearchCard from './SearchCard'
 //import bg from 
 
 function SearchBar() {
 
-  const[isDisp,setDisp]=useState(false)
-  const[searchtext,setSearchtext]=useState()
-  const[resCount,setResCount]=useState()
+  const searchReduxData=useSelector((state)=> state.search.results)
+  const disReduxData=useSelector((state)=>state.search.dis)
+  const textReduxData=useSelector((state)=> state.search.text)
+
+ 
   const[result_data,setResult_data]=useState([])
-  const[struct_data,setStruct_data]=useState([])
   const[placeholder,setPlaceholder]=useState('')
+
+  const dispatch=useDispatch()
 
   useEffect(()=>{
        structure_data();
@@ -25,7 +31,8 @@ function SearchBar() {
 
   async function search(){
       const searchtxt=document.getElementById('search-text').value;
-      setSearchtext(searchtxt)
+      dispatch(textDate(searchtxt))
+      dispatch(setReduxStatus(true))
       setPlaceholder('')
       const url = `https://imdb-movies-web-series-etc-search.p.rapidapi.com/${searchtxt}.json`;
       const options = {
@@ -48,9 +55,8 @@ function SearchBar() {
         }
         const result = await response.text();
         const data_json=JSON.parse(result)
-        setResCount(data_json.d.length);
         setResult_data(data_json)
-        setDisp(true)
+        dispatch(disContent(true))
 
       } catch (error) {
         toast.error("Something went wrong",{
@@ -79,11 +85,13 @@ function SearchBar() {
         }
         new_array.push(obj)
     }
-    setStruct_data(new_array)
+    dispatch(storeDate(new_array))
+
   }
 
   function close_search(){
-       setDisp(false)
+       dispatch(disContent(false))
+       dispatch(setReduxStatus(false))
   }
   return (
     <>
@@ -126,11 +134,11 @@ function SearchBar() {
     </div>
 
     {
-      isDisp && resCount>0 && result_data.length!=0 && (
+      searchReduxData.length!=0 && disReduxData!=false && (
     <>
     <div className='search_result-container'>
        <div className='result-text'>
-          About {resCount} results for the search "{searchtext}"
+          About {searchReduxData.length} results for the search "{textReduxData}"
        </div>
        <div className='search-close-icon'>
         <Tooltip label="Close  search results">
@@ -143,9 +151,9 @@ function SearchBar() {
     <div className='search-txt'>Search Results </div>
         <div className='searchres-container'>
         {
-           struct_data.length!=0?(
-           struct_data.map((data)=>{
-              return <TrendingCard key={data.rank} data={data}/>
+           searchReduxData!=0?(
+           searchReduxData.map((data,index)=>{
+              return <SearchCard key={data.rank} data={data} ind={index}/>
            })
            
            ):(

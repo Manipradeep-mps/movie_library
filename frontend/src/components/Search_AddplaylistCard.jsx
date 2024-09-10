@@ -7,49 +7,25 @@ import {  Button, Stack,Text } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { jwtDecode } from 'jwt-decode'
 import { useToast } from '@chakra-ui/react'
+import { useSelector } from 'react-redux'
 
 
-function AddplaylistCard(props) {
+function Search_AddplaylistCard(props) {
     const[data,setData]=useState([])
     const [isHovered, setIsHovered] = useState(false);
     let info=props.data
     const toast=useToast()
-    const {title}=useParams()
-    const {type}=useParams()
+    const searchReduxData=useSelector((state)=> state.search.results)
+    const dataIndex=useSelector((state)=> state.search.dataIndex)
     
      useEffect(()=>{
         getinfo();
      },[])
 
-    async function getinfo(){
-        try
-        {
-             await fetch(`${import.meta.env.VITE_BASE_URL}/info/search`,{
-                method:'POST',
-                body:JSON.stringify({
-                   title:title,
-                   type:type
-                }),
-                headers:{
-                    'Content-Type':'Application/json'
-                }
-             })
-             .then(res=>res.json())
-             .then(result=>{
-                 setData(result)
-             })
-        }
-        catch(err){
-          toast(
-            {
-               title:"Something went wrong",
-               status:'error',
-               position:'top-right',
-               duration:2000,
-               isClosable:true
-            }
-          )
-        }
+     function getinfo(){
+        const new_array=[]
+        new_array.push(searchReduxData[dataIndex])
+        setData(new_array)
     }
     async function addlist(){
         const userinfo=localStorage.getItem("userInfo");
@@ -61,7 +37,7 @@ function AddplaylistCard(props) {
             "listname":title,
             "listdata":{
               "title":data[0].title,
-              "type":type,
+              "type":null,
               "rank":data[0].rank,
               "image":data[0].big_image,
               "actors":String,
@@ -138,7 +114,7 @@ function AddplaylistCard(props) {
       <>
     
       { data.length>0 ? (<> <div>
-          <Link to={`/playlist/info/${info._id}`}>
+          <Link to={`/playlist/info/searchResult/${info._id}`}>
           <div className='list-image'>
           <img src='/Playlist_image.jpeg'></img>
           </div>
@@ -175,4 +151,4 @@ function AddplaylistCard(props) {
     )
 }
 
-export default AddplaylistCard
+export default Search_AddplaylistCard
