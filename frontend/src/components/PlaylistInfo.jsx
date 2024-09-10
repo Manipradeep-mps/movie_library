@@ -14,32 +14,29 @@ function PlaylistInfo() {
     const[data,setdata]=useState([])
     const[isShared,setShared]=useState(false)
     const id=useParams()
-    const[curruser,setuser]=useState()
     const toast=useToast()
 
     useEffect(()=>{
          getListInfo();
-         checkuser()
+        
     },[])
 
     const navigate=useNavigate()
 
-    useEffect(()=>{
-       checklogin()
-    },[])
+  
     
-    async function checkuser(){
-      const userinfo=localStorage.getItem("userInfo");
-      const user= await jwtDecode(userinfo)
-      const userid=user.id;
-      setuser(userid)
-    }
-    async function checklogin(){
-      if(localStorage.getItem("userInfo")==null ||localStorage.getItem("userInfo")==undefined)
-      {
-         navigate('/');
-      }
-    }
+    // async function checkuser(){
+    //   const userinfo=localStorage.getItem("userInfo");
+    //   const user= await jwtDecode(userinfo)
+    //   const userid=user.id;
+    //   setuser(userid)
+    // }
+    // async function checklogin(){
+    //   if(localStorage.getItem("userInfo")==null ||localStorage.getItem("userInfo")==undefined)
+    //   {
+    //      navigate('/');
+    //   }
+    // }
 
     async function getListInfo() {
      
